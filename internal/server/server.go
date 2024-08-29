@@ -37,10 +37,11 @@ func (s Server) Run() error {
 	g := gin.New()
 
 	uc := usecase.New(s.cfg, pDB, s.logger)
+	uc.AuthUsecase().Create()
 
-	handler.SetUp(g, s.cfg, s.logger)
+	handler.SetUp(&g.RouterGroup, s.cfg, s.logger)
 	_ = uc
 
-	return g.Start(fmt.Sprintf(":%d", s.cfg.Server.Port))
+	return g.Run(fmt.Sprintf(":%d", s.cfg.Server.Port))
 
 }
