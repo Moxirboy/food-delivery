@@ -1,7 +1,8 @@
 package configs
 
 import (
-	_ "github.com/joho/godotenv/autoload" // load .env file automatically
+	env "github.com/caarlos0/env/v6"
+	_ "github.com/joho/godotenv/autoload"
 )
 
 var instance Config
@@ -23,6 +24,8 @@ type Config struct {
 	Postgres Postgres
 	JWT      JWT
 	Setup    Setup
+	Redis    Redis
+	Casbin   Casbin
 }
 
 type (
@@ -33,6 +36,11 @@ type (
 		Timeout           uint16 `env:"SERVER_TIMEOUT"`
 		Time              uint16 `env:"SERVER_TIME"`
 		MaxConnectionAge  uint16 `env:"SERVER_MAX_CONNECTION_AGE"`
+	}
+
+	Redis struct {
+		Host string `env:"REDIS_HOST"`
+		Port uint16 `env:"REDIS_PORT"`
 	}
 
 	Setup struct {
@@ -52,7 +60,7 @@ type (
 		Host     string `env:"POSTGRES_HOST"`
 		Password string `env:"POSTGRES_PASSWORD"`
 		User     string `env:"POSTGRES_USER"`
-		Database string `env:"POSTGRES_DB"`
+		Database string `env:"POSTGRES_DATABASE"`
 	}
 
 	JWT struct {
@@ -61,5 +69,9 @@ type (
 		RefreshKeyExpireHours    uint16 `env:"JWT_REFRESH_KEY_EXPIRE_HOURS_ADMIN"`
 		ClientRefreshExpireHours uint16 `env:"JWT_CLIENT_REFRESH_EXPIRE_HOURS"`
 		RefreshKey               string `env:"JWT_REFRESH_KEY_ADMIN"`
+	}
+	Casbin struct {
+		ConfigPath string `env:"CASBIN_CONFIG_PATH_ADMIN"`
+		Name       string `env:"CASBIN_NAME_ADMIN"`
 	}
 )

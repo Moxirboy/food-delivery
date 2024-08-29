@@ -2,6 +2,7 @@ package utils
 
 import (
 	"food-delivery/internal/dto"
+	"github.com/go-playground/validator/v10"
 )
 
 var validate = validator.New()

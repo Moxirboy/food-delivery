@@ -29,10 +29,16 @@ func DB(cfg *configs.Postgres) (*sql.DB, error) {
 			cfg.Database,
 		)
 		instance, err = sql.Open("postgres", psqlString)
+
 	})
 
 	if err != nil {
 		return nil, errors.Wrap(err, "pgx.Connect")
+	}
+
+	err = instance.Ping()
+	if err != nil {
+		return nil, errors.Wrap(err, "pg.Ping")
 	}
 
 	return instance, nil
