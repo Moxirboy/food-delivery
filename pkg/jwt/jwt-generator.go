@@ -3,9 +3,12 @@ package jwt
 import (
 	"encoding/base32"
 
+	"crypto/rand"
 	"fmt"
 	"food-delivery/internal/configs"
 	"food-delivery/internal/models"
+	"github.com/gbrlsnchs/jwt/v3"
+	"github.com/pkg/errors"
 	"strings"
 	"time"
 )
@@ -15,7 +18,7 @@ var (
 )
 
 const (
-	Client = "CLIENT"
+	USER = "USER"
 )
 
 // GenerateNewTokens func for generate a new Access & Refresh tokens.
@@ -79,7 +82,7 @@ func generateNewRefreshToken(id, role string) (string, error) {
 	conf := configs.Load()
 	now := time.Now()
 	expireHours := conf.JWT.RefreshKeyExpireHours
-	if strings.EqualFold(role, Client) {
+	if strings.EqualFold(role, USER) {
 		expireHours = conf.JWT.ClientRefreshExpireHours
 	}
 	token, err := jwt.Sign(

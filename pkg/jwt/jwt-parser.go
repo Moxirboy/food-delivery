@@ -2,6 +2,7 @@ package jwt
 
 import (
 	"food-delivery/internal/configs"
+	"github.com/gbrlsnchs/jwt/v3"
 	"time"
 )
 
