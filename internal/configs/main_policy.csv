@@ -1,0 +1,7 @@
+p,auth,*,POST
+p,auth,*,GET
+
+g,/api/v1/auth/refresh,auth
+g,/api/v1/auth,auth
+g,/api/v1/auth/login,auth
+g,/api/v1/auth/sign,auth
