@@ -1,7 +1,14 @@
 package repo
 
-import "context"
+import (
+	"context"
+	"food-delivery/internal/dto"
+	"time"
+)
 
-type Auth interface {
-	Create(ctx context.Context) error
+type IAuthTokenRepository interface {
+	Create(ctx context.Context, token, id, role string, date time.Time) error
+	CleanUp(ctx context.Context) error
+	Get(ctx context.Context, token string) (*dto.AuthToken, error)
+	Delete(ctx context.Context, token string) error
 }

@@ -8,8 +8,9 @@ import (
 )
 
 type IUseCase interface {
-	AuthUsecase() authUsecase
-	ProductUsecase() productUsecase
+	IAccountUseCase() IAccountUseCase
+	IAuthUseCase() IAuthUseCase
+	ProductUsecase() IProductUseCase
 }
 
 type UseCase struct {
@@ -17,7 +18,8 @@ type UseCase struct {
 }
 
 const (
-	_authUseCase    = "auth_use_case"
+	_AuthUseCase    = "auth_use_case"
+	_AccountUseCase = "account_use_case"
 	_productUseCase = "product_use_case"
 )
 
@@ -27,7 +29,21 @@ func New(
 	logger logger.Logger,
 ) IUseCase {
 	var connections = make(map[string]interface{})
-	connections[_authUseCase] = NewAuthUsecase(pg, logger)
+	connections[_AuthUseCase] = NewAuthUseCase(
+		postgres.NewAuthTokenRepository(
+			pg,
+			logger,
+		),
+		logger,
+	)
+	connections[_AccountUseCase] = NewAccountUseCase(
+		postgres.NewUserRepository(
+			pg,
+			logger,
+		),
+		logger,
+		cfg,
+	)
 	connections[_productUseCase] = NewProductUsecase(
 		postgres.NewProduct(
 			pg,
@@ -41,10 +57,13 @@ func New(
 	}
 }
 
-func (c *UseCase) AuthUsecase() authUsecase {
-	return c.connections[_authUseCase].(authUsecase)
+func (c *UseCase) IAuthUseCase() IAuthUseCase {
+	return c.connections[_AuthUseCase].(IAuthUseCase)
+}
+func (c *UseCase) IAccountUseCase() IAccountUseCase {
+	return c.connections[_AccountUseCase].(IAccountUseCase)
 }
 
-func (c *UseCase) ProductUsecase() productUsecase {
-	return c.connections[_productUseCase].(productUsecase)
+func (c *UseCase) ProductUsecase() IProductUseCase {
+	return c.connections[_productUseCase].(IProductUseCase)
 }

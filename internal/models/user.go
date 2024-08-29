@@ -1,5 +1,7 @@
 package models
 
+import "food-delivery/internal/dto"
+
 type Position string
 
 const (
@@ -14,6 +16,16 @@ type User struct {
 	LastName  string
 	Email     string
 	Password  string
-	Position
+	Position  string
 	At
+}
+
+func NewUser(request dto.SignUpRequest) *User {
+	return &User{
+		FirstName: request.FisrtName,
+		LastName:  request.LastName,
+		Email:     request.Email,
+		Password:  request.Password,
+		Position:  "USER",
+	}
 }
