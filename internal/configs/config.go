@@ -23,6 +23,7 @@ import (
 var instance Config
 
 func Load() *Config {
+	DB, _ := strconv.Atoi(getEnv("REDIS_DB", "0"))
 	instance = Config{
 		AppName:    getEnv("APP_NAME", ""),
 		AppVersion: getEnv("APP_VERSION", ""),
@@ -56,7 +57,12 @@ func Load() *Config {
 			ClientRefreshExpireHours: parseUint16(getEnv("JWT_CLIENT_REFRESH_EXPIRE_HOURS", "0")),
 			RefreshKey:               getEnv("JWT_REFRESH_KEY_ADMIN", ""),
 		},
-
+		Redis: Redis{
+			Host:     getEnv("REDIS_HOST", ""),
+			Port:     getEnv("REDIS_PORT", "0"),
+			Password: getEnv("REDIS_PASSWORD", ""),
+			DB:       DB,
+		},
 		Casbin: Casbin{
 			ConfigPath: getEnv("CASBIN_CONFIG_PATH_ADMIN", ""),
 			Name:       getEnv("CASBIN_NAME_ADMIN", ""),
@@ -112,8 +118,9 @@ type (
 
 	Redis struct {
 		Host     string `env:"REDIS_HOST"`
-		Port     uint16 `env:"REDIS_PORT"`
+		Port     string `env:"REDIS_PORT"`
 		Password string `env:"REDIS_PASSWORD"`
+		DB       int    `env:"REDIS_DB"`
 	}
 
 	Setup struct {
