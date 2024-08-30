@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"food-delivery/internal/configs"
 	"food-delivery/internal/server"
 	"food-delivery/pkg/logger"
@@ -17,7 +18,7 @@ import (
 
 // @license.name				Apache 2.0
 // @license.url				http://www.apache.org/licenses/LICENSE-2.0.html
-// @host						localhost:5005
+// @host						food-delivery.up.railway.app
 // @BasePath					/api/v1
 //
 // @schemes					http https
@@ -29,7 +30,7 @@ func main() {
 	var (
 		config = configs.Load()
 	)
-
+	fmt.Println(config)
 	logger := logger.NewLogger(config.Logger.Level, config.Logger.Encoding)
 	logger.InitLogger()
 
