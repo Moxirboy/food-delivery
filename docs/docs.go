@@ -870,8 +870,8 @@ var SwaggerInfo = &swag.Spec{
 	Description:      "This is a server for the food delivery service.",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
-	LeftDelim:        "{{",
-	RightDelim:       "}}",
+	//LeftDelim:        "{{",
+	//RightDelim:       "}}",
 }
 
 func init() {
