@@ -19,19 +19,19 @@ var (
 func DB(cfg *configs.Redis) (*redis.Client, error) {
 	var err error
 	once.Do(func() {
+		fmt.Println(cfg)
 		instance = redis.NewClient(&redis.Options{
-			Addr:     fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
+			Addr:     fmt.Sprintf("%s:%s", cfg.Host, cfg.Port),
+			Username: "default",
 			Password: cfg.Password,
+			DB:       cfg.DB, // default DB
 		})
 
-		err = instance.Ping(context.Background()).Err()
 	})
-
+	err = instance.Ping(context.Background()).Err()
 	if err != nil {
 		return nil, errors.Wrap(err, "redis.Connect")
 	}
-
-	fmt.Println("redis connect", instance.Ping(context.Background()).Err())
 
 	return instance, nil
 }
