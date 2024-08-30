@@ -20,7 +20,8 @@ func DB(cfg *configs.Redis) (*redis.Client, error) {
 	var err error
 	once.Do(func() {
 		instance = redis.NewClient(&redis.Options{
-			Addr: fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
+			Addr:     fmt.Sprintf("%s:%d", cfg.Host, cfg.Port),
+			Password: cfg.Password,
 		})
 
 		err = instance.Ping(context.Background()).Err()

@@ -111,8 +111,9 @@ type (
 	}
 
 	Redis struct {
-		Host string `env:"REDIS_HOST"`
-		Port uint16 `env:"REDIS_PORT"`
+		Host     string `env:"REDIS_HOST"`
+		Port     uint16 `env:"REDIS_PORT"`
+		Password string `env:"REDIS_PASSWORD"`
 	}
 
 	Setup struct {
