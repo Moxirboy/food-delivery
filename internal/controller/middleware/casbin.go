@@ -2,6 +2,7 @@ package middleware
 
 import (
 	"context"
+	"fmt"
 	cnst "food-delivery/internal/const"
 	"food-delivery/internal/dto"
 	"food-delivery/internal/models"
@@ -62,7 +63,9 @@ func (m Middleware) CheckPermission(c *MyContext) (bool, error) {
 // getUserName retrieves the user's role based on the access token.
 func (m Middleware) getUserName(c *MyContext) (string, error) {
 	accessToken := c.GetHeader("Authorization")
-
+	jwt := c.GetHeader("JWT")
+	fmt.Println(jwt)
+	fmt.Println(accessToken)
 	if accessToken == "" {
 		return string(models.UNAUTHORIZED), nil
 	}

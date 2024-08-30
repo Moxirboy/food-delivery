@@ -1,6 +1,36 @@
 version: '3.8'
 
 services:
+  db:
+    image: postgres:latest
+    environment:
+      POSTGRES_PASSWORD: root
+      POSTGRES_DB: app_db
+    volumes:
+      - ./postgresql.conf:/etc/postgresql/postgresql.conf
+    ports:
+      - "5432"
+    networks:
+      - food-delivery
+  migrate:
+    image: migrate/migrate
+    volumes:
+      - .:/app
+    working_dir: /app
+    env_file:
+      - .env
+    profiles:
+      - donotstart
+    networks:
+      - food-delivery
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - food-delivery
   app:
     build:
       context: ./docker/dev
@@ -17,19 +47,14 @@ services:
       - .env
     environment:
       GOCACHE: /go-cache
-  migrate:
-    image: migrate/migrate
-    volumes:
-      - .:/app
-    working_dir: /app
-    env_file:
-      - .env
-    profiles:
-      - donotstart
-  db:
-    image: postgres:latest
-    environment:
-      POSTGRES_PASSWORD: root
-      POSTGRES_DB: app_db
-    ports:
-      - "5432"
+    networks:
+      - food-delivery
+    depends_on:
+      - db
+      - redis
+
+volumes:
+  redis_data:
+networks:
+  food-delivery:
+    driver: bridge

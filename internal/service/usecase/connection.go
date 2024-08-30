@@ -11,6 +11,8 @@ type IUseCase interface {
 	IAccountUseCase() IAccountUseCase
 	IAuthUseCase() IAuthUseCase
 	ProductUsecase() IProductUseCase
+	CartUsecase() ICartUseCase
+	IOrderUseCase() IOrderUseCase
 }
 
 type UseCase struct {
@@ -21,6 +23,8 @@ const (
 	_AuthUseCase    = "auth_use_case"
 	_AccountUseCase = "account_use_case"
 	_productUseCase = "product_use_case"
+	_cartUseCase    = "cart_use_case"
+	_orderUseCase   = "order_use_case"
 )
 
 func New(
@@ -52,6 +56,22 @@ func New(
 		logger,
 	)
 
+	connections[_cartUseCase] = NewCartUsecase(
+		postgres.NewCart(
+			pg,
+			logger,
+		),
+		logger,
+	)
+	connections[_orderUseCase] = NewOrderUseCase(
+		postgres.NewOrder(
+			pg,
+			logger,
+		),
+		logger,
+	)
+
+
 	return &UseCase{
 		connections: connections,
 	}
@@ -66,4 +86,9 @@ func (c *UseCase) IAccountUseCase() IAccountUseCase {
 
 func (c *UseCase) ProductUsecase() IProductUseCase {
 	return c.connections[_productUseCase].(IProductUseCase)
+}
+func (c *UseCase) CartUsecase() ICartUseCase { return c.connections[_cartUseCase].(ICartUseCase) }
+
+func (c *UseCase) IOrderUseCase() IOrderUseCase {
+	return c.connections[_orderUseCase].(IOrderUseCase)
 }

@@ -12,11 +12,12 @@ const (
 		VALUES ($1, $2, $3, $4, $5)
 		returning id
 `
+
 	GetUserByAuthCred = `
 		SELECT  id,
 				first_name,
 				last_name,
-				position,
+				position
 		FROM users
 		WHERE deleted_at IS NULL
 		AND email = $1

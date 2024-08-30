@@ -32,12 +32,12 @@ func (e *accountUseCase) CreateUser(
 	ctx context.Context,
 	User *models.User,
 ) (err error) {
-	User.Password = utils.Hash([]byte(e.cfg.Setup.AdminPassword))
 
 	positions := strings.Split(User.Position, ",")
 
 	for _, position := range positions {
 		if position == string(models.PositionAdmin) {
+			User.Password = utils.Hash([]byte(e.cfg.Setup.AdminPassword))
 			isSuperAdminExist, errCheck := e.UserRepo.CheckField(
 				ctx,
 				"position",
@@ -57,7 +57,7 @@ func (e *accountUseCase) CreateUser(
 		}
 
 	}
-
+	User.Password = utils.Hash([]byte(User.Password))
 	User.ID, err = e.UserRepo.CreateUser(ctx, User)
 	if err != nil {
 		e.log.Error("Error while creating employee:", err.Error())
@@ -71,6 +71,7 @@ func (e *accountUseCase) LoginUser(
 	ctx context.Context,
 	login, password string,
 ) (res *models.User, err error) {
+	password = utils.Hash([]byte(password))
 	res, err = e.UserRepo.Login(ctx, login, password)
 	if err != nil {
 		e.log.Error("Error while checking login credentials:", err.Error())

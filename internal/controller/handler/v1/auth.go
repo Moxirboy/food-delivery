@@ -2,6 +2,7 @@ package v1
 
 import (
 	"context"
+	"fmt"
 	"food-delivery/internal/dto"
 	"food-delivery/internal/models"
 	"food-delivery/internal/service/usecase"
@@ -12,12 +13,16 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// AuthHandler handles authentication-related operations.
 type AuthHandler struct {
 	log       logger.Logger
 	AccountUC usecase.IAccountUseCase
 	AuthUC    usecase.IAuthUseCase
 }
 
+// NewAuthHandler initializes the authentication routes.
+//
+//	@BasePath	/api/v1
 func NewAuthHandler(
 	r *gin.RouterGroup,
 	l logger.Logger,
@@ -34,9 +39,21 @@ func NewAuthHandler(
 	auths.POST("/login", handler.login)
 	auths.POST("/refresh", handler.renew)
 	auths.POST("/sign", handler.signUp)
+	auths.GET("/set", handler.SetHandler)
 }
 
-// @Router /v1/auth/refresh [post]
+// renew handles the token refresh operation.
+//
+//	@Summary		Refresh access token
+//	@Description	Refreshes the access token using a refresh token.
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			body	body		dto.RenewRequest	true	"Refresh Token"
+//	@Success		200		{object}	dto.BaseResponse	"Token refreshed successfully"
+//	@Failure		400		{object}	dto.BaseResponse"Invalid request"
+//	@Failure		500		{object}	dto.BaseResponse	"Internal server error"
+//	@Router			/auth/refresh [post]
 func (a *AuthHandler) renew(c *gin.Context) {
 	var body dto.RenewRequest
 
@@ -62,7 +79,18 @@ func (a *AuthHandler) renew(c *gin.Context) {
 	)
 }
 
-// @Router /v1/auth/login [post]
+// login handles user login and token generation.
+//
+//	@Summary		User login
+//	@Description	Authenticates a user and generates access and refresh tokens.
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			body	body		dto.LoginRequest	true	"Login credentials"
+//	@Success		200		{object}	dto.BaseResponse	"Login successful"
+//	@Failure		400		{object}	dto.BaseResponse	"Invalid login request"
+//	@Failure		500		{object}	dto.BaseResponse	"Internal server error"
+//	@Router			/auth/login [post]
 func (h *AuthHandler) login(c *gin.Context) {
 	var body dto.LoginRequest
 
@@ -103,7 +131,18 @@ func (h *AuthHandler) login(c *gin.Context) {
 	)
 }
 
-// @Router /v1/auth/sign [post]
+// signUp handles user registration.
+//
+//	@Summary		User sign up
+//	@Description	Registers a new user and generates access and refresh tokens.
+//	@Tags			auth
+//	@Accept			json
+//	@Produce		json
+//	@Param			body	body		dto.SignUpRequest	true	"User sign-up details"
+//	@Success		200		{object}	dto.BaseResponse	"Sign-up successful"
+//	@Failure		400		{object}	dto.BaseResponse	"Invalid sign-up request"
+//	@Failure		500		{object}	dto.BaseResponse	"Internal server error"
+//	@Router			/auth/sign [post]
 func (h *AuthHandler) signUp(c *gin.Context) {
 	var body dto.SignUpRequest
 
@@ -141,4 +180,19 @@ func (h *AuthHandler) signUp(c *gin.Context) {
 		toLoginResponse(c.Request.Context(), user, tokens),
 		nil,
 	)
+}
+
+// @Summary Set Authorization Header
+// @Description Sets the Authorization header with a Bearer token.
+// @Tags Auth
+// @Accept json
+// @Produce json
+// @Param token query string true "Authorization Token"
+// @Success 200 {object} map[string]string "Success"
+// @Router /auth/set [get]
+func (h *AuthHandler) SetHandler(c *gin.Context) {
+	query := c.Query("token")
+	bear := fmt.Sprintf("Bearer %s", query)
+	c.Header("Authorization", bear)
+	c.JSON(200, gin.H{"message": "Authorization header set"})
 }

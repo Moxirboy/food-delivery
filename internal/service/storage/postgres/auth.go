@@ -68,7 +68,12 @@ func (r authTokenRepository) Get(
 ) (*dto.AuthToken, error) {
 	at := dto.AuthToken{}
 	err := r.db.QueryRowContext(ctx, authGet, token, time.Now().Format(time.RFC3339)).
-		Scan(&at)
+		Scan(
+			&at.ID,
+			&at.Token,
+			&at.Role,
+			&at.Datetime,
+		)
 
 	if err != nil {
 		r.log.Error("Error while selecting from auth_token (Get):", err.Error())

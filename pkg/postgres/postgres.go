@@ -40,6 +40,7 @@ func DB(cfg *configs.Postgres) (*sql.DB, error) {
 	if err != nil {
 		return nil, errors.Wrap(err, "pg.Ping")
 	}
+	forceMigration(instance, 1)
 
 	return instance, nil
 }
