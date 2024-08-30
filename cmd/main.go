@@ -1,4 +1,4 @@
-package cmd
+package main
 
 import (
 	"food-delivery/internal/configs"
@@ -25,7 +25,7 @@ import (
 // @in							header
 // @name						Authorization
 // @description				 security accessToken. Please add it in the format "AccessToken" to authorize your requests.
-func main2() {
+func main() {
 	var (
 		config = configs.Load()
 	)
