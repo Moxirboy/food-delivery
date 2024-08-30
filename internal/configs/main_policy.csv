@@ -1,7 +1,39 @@
 p,auth,*,POST
 p,auth,*,GET
+p,swag,*,GET
+
+p,product,USER,POST
+p,product,USER,GET
+p,product,USER,POST
+p,product,ADMIN,DELETE
+
+p,order,USER,POST
+p,order,USER,GET
+p,order,COURIER,PUT
+p,order,ADMIN,PUT
+
+p,cart,USER,DELETE
+p,cart,USER,POST
+p,cart,USER,GET
+
 
 g,/api/v1/auth/refresh,auth
 g,/api/v1/auth,auth
 g,/api/v1/auth/login,auth
 g,/api/v1/auth/sign,auth
+g,/api/v1/auth/set,auth
+
+g,/api/v1/product,product
+g,/api/v1/product/get-all,product
+g,/api/v1/product/get,product
+g,/api/v1/product/remove,product
+g,/swagger/*,swag
+
+g,/api/v1/cart/create,cart
+g,/api/v1/cart/get,cart
+g,/api/v1/cart/remove,cart
+g,/api/v1/cart/add,cart
+
+g,/api/v1/order/create ,order
+g,/api/v1/order/get,order
+g,/api/v1/order/update ,order

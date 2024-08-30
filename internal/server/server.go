@@ -52,6 +52,7 @@ func (s Server) Run() error {
 		rds.NewRedisRepository(rDB),
 		uc.IAuthUseCase(),
 	)
+	s.logger.Info(s.cfg)
 	handler.SetUp(&g.RouterGroup, s.cfg, uc, s.logger, redisRe)
 
 	uc.IAccountUseCase().CreateUser(context.Background(), &models.User{

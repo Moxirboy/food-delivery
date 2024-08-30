@@ -1,7 +1,7 @@
 package handler
 
 import (
-	_ "food-delivery/cmd/docs"
+	_ "food-delivery/docs"
 	"food-delivery/internal/configs"
 	v1 "food-delivery/internal/controller/handler/v1"
 	"food-delivery/internal/service/storage/repo"
@@ -39,5 +39,21 @@ func SetUpHandlerV1(
 		uc.IAuthUseCase(),
 		uc.IAccountUseCase(),
 	)
-
+	v1.NewProductHandler(
+		group,
+		log,
+		config,
+		uc.ProductUsecase(),
+	)
+	v1.NewCartHandler(
+		group,
+		log,
+		uc.CartUsecase(),
+	)
+	v1.NeworderHandler(
+		group,
+		log,
+		uc.IOrderUseCase(),
+		uc.CartUsecase(),
+	)
 }

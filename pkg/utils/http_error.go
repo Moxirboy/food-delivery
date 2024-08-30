@@ -19,11 +19,13 @@ const (
 	StatusInternalServerError = "INTERNAL_SERVER_ERROR"
 	StatusInvalidField        = "INVALID_FIELD"
 	StatusAlreadyExist        = "ALREADY_EXIST"
+	NotAuthenticated          = "NOT_AUTHENTICATED"
 )
 
 var (
 	ErrInvalidField = errors.New("invelid field")
 	ErrAlreadyExist = errors.New("already exist")
+	ErrNotAuthenticated = errors.New("not authenticated")
 )
 
 func SendResponse(

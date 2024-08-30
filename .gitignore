@@ -2,3 +2,5 @@
 .env
 .go
 .go-cache
+./internal/configs/credentials.json
+postgresql.conf

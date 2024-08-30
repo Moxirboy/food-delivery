@@ -19,13 +19,14 @@ type Config struct {
 	AppName    string `env:"APP_NAME"`
 	AppVersion string `env:"APP_VERSION"`
 
-	Server   Server
-	Logger   Logger
-	Postgres Postgres
-	JWT      JWT
-	Setup    Setup
-	Redis    Redis
-	Casbin   Casbin
+	Server    Server
+	Logger    Logger
+	Postgres  Postgres
+	JWT       JWT
+	Setup     Setup
+	Redis     Redis
+	Casbin    Casbin
+	FireStore FireStore
 }
 
 type (
@@ -73,5 +74,11 @@ type (
 	Casbin struct {
 		ConfigPath string `env:"CASBIN_CONFIG_PATH_ADMIN"`
 		Name       string `env:"CASBIN_NAME_ADMIN"`
+	}
+
+	FireStore struct {
+		ProjectID       string `env:"PROJECT_ID"`
+		CredentialsFile string `env:"CREDENTIALS_FILE"`
+		BucketName      string `env:"STORAGE_BUCKET_NAME"`
 	}
 )
