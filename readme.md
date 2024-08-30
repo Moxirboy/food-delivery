@@ -1,3 +1,94 @@
+# Project Name
+
+## Overview
+
+This project integrates several technologies, including Firebase, Docker, Reflex, PostgreSQL, Casbin, Redis, and JWT, to build a scalable and efficient application. The setup allows for real-time updates, secure data management, and easy deployment across different environments.
+
+## Technologies Used
+
+### Firebase
+
+- **Description**: Firebase is a platform developed by Google for creating mobile and web applications.
+- **Use in Project**: Firebase is used for storing images and retrieving them as needed. It provides robust cloud storage capabilities that ensure fast and reliable access to image data.
+
+### Docker
+
+- **Description**: Docker is an open-source platform that automates the deployment of applications inside lightweight, portable containers.
+- **Use in Project**: Docker is used to containerize the application and its dependencies, ensuring consistency across different environments and simplifying deployment processes. The project includes Dockerfiles and docker-compose configurations for managing multi-container setups.
+
+### Reflex
+
+- **Description**: Reflex is a tool that keeps Docker containers alive by automatically restarting them after code changes.
+- **Use in Project**: Reflex is used to enable real-time updates. After making changes to the code, Reflex ensures that these changes are immediately reflected in the running Docker containers without manual intervention.
+
+### PostgreSQL
+
+- **Description**: PostgreSQL is a powerful, open-source object-relational database system with a strong reputation for reliability, feature robustness, and performance.
+- **Use in Project**: PostgreSQL is used as the primary relational database for managing application data, providing robust data management capabilities.
+
+### Casbin
+
+- **Description**: Casbin is an authorization library that supports access control models like ACL, RBAC, and ABAC.
+- **Use in Project**: Casbin is used for managing policies within the application, ensuring that user access is controlled and secure according to predefined rules.
+
+### Redis
+
+- **Description**: Redis is an open-source, in-memory data structure store used as a database, cache, and message broker.
+- **Use in Project**: Redis is utilized for caching tokens, improving the performance of token validation by storing them in-memory for quick access.
+
+### JWT (JSON Web Tokens)
+
+- **Description**: JWT is an open standard for securely transmitting information between parties as a JSON object.
+- **Use in Project**: JWT is used for handling access tokens, enabling secure and stateless user authentication within the application.
+
+## Utils
+
+- **Pagination**: Implements pagination for efficiently managing large sets of data.
+- **Validator**: Ensures that JSON parameters are valid and clean before being processed by the application, helping to maintain data integrity and security.
+
+## Setup and Installation
+
+### Prerequisites
+
+- Docker: Ensure Docker is installed and running on your machine.
+- Docker Compose: Required for managing multi-container Docker applications.
+
+### Getting Started
+#### Create .env file from .env.example before running the project
+
+### Run service
+```
+ make start
+```
+
+### Run migrations
+```
+ make migration-up
+```
+
+### Run create migration file
+```
+ make migration-generate name=foobar
+```
+
+### Run stop containers
+```
+make stop
+```
+
+### Run remove containers
+```
+make rm
+```
+## Troubleshooting
+
+- **Common Issues**:
+    - Ensure Docker and Docker Compose are running.
+    - Verify that all services are up and running.
+    - Check configuration files for any errors.
+    - Review application logs for detailed error messages.
+
+    
 ## Functional Requirements for Food Delivery Service Backend:
 
 ### 1. User and Courier Authorization:
@@ -175,3 +266,8 @@ These detailed functional requirements provide a comprehensive overview of the b
 
 
 These technical requirements outline the necessary components and considerations for developing the backend of a Food Delivery Service application. They cover aspects such as the choice of programming language, database management, system architecture, security measures, API design, testing, and infrastructure setup. Adjustments can be made based on specific project requirements and constraints.
+
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
