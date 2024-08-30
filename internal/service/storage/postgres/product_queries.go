@@ -1,4 +1,4 @@
-package queries
+package postgres
 
 const (
 	CreateProduct = `
@@ -8,12 +8,10 @@ const (
 	select
 		id, name, description, price, image, created_at, updated_at, deleted_at
 	from products
-	where id = $1;
+	where id = $1 and deleted_at IS NULL;
 `
-	GetProductList = `
-	select
-		id, name, description, price, image, created_at, updated_at, deleted_at
-	from products
-	where deleted_at is null;
+
+	DeleteProduct = `
+	update products set deleted_at = $1 where id = $2;
 `
 )
