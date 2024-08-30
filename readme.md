@@ -88,7 +88,7 @@ make rm
     - Check configuration files for any errors.
     - Review application logs for detailed error messages.
 
-    
+
 ## Functional Requirements for Food Delivery Service Backend:
 
 ### 1. User and Courier Authorization:
